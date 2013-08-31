@@ -12,18 +12,17 @@ $(document).ready(function() { //Preguntamos si las librerias de Phonegap ya est
 
 function accion(obj){
 	var i = obj.index();
-	var pg = obj.parents('.page').attr('id');
+	var p = obj.parents('.page').attr('id');
 	
 	if(i==0){ //Si fue el boton iniciar
-		iniciar(pg);
+		iniciar(p);
 	}else if(i==1){ //Si fue el boton detener
-		detener(pg);
+		detener(p);
 	} 
 //	alert(i+'\n'+p); //Imprimimos lo pulsado
 }
 var watchID = null;
 function iniciar(p){
-	if (watchID==null){
 	if(p=='acelerometro'){
 	function onSuccess(acceleration) {
 		$('#'+p+' h2').html('X: '+acceleration.x+' <br>'+
@@ -55,7 +54,6 @@ function iniciar(p){
 		
 		watchID = navigator.compass.watchHeading(onSuccess, onError, options);
 		}		
-	}
 }
 
 function detener(p){
