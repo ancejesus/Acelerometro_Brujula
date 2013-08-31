@@ -12,12 +12,12 @@ $(document).ready(function() { //Preguntamos si las librerias de Phonegap ya est
 
 function accion(obj){
 	var i = obj.index();
-	var p = obj.parents('.page').attr('id');
+	var pg = obj.parents('.page').attr('id');
 	
 	if(i==0){ //Si fue el boton iniciar
-		iniciar(p);
+		iniciar(pg);
 	}else if(i==1){ //Si fue el boton detener
-		detener(p);
+		detener(pg);
 	} 
 //	alert(i+'\n'+p); //Imprimimos lo pulsado
 }
