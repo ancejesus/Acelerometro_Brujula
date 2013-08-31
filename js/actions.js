@@ -1,71 +1,53 @@
-//actions {} <>
+//actions
 var jQT = new $.jQTouch({
 	themeSelectionSelector: '#jqt'
 });
-//Podemos usar $(function()
-$(document).ready(function() { //Preguntamos si las librerias de Phonegap ya estan cargadas
-    document.addEventListener("deviceready",function(){
+
+$(function(){
+	document.addEventListener("deviceready",function(){
 		$('ul.individual li').tap(function(){accion($(this));});
-	},false);	
-//alert($(this).parents('.page').attr('id')); //Obtenemos el id del padre del boton pulsado
+	},false);
 });
 
 function accion(obj){
 	var i = obj.index();
 	var p = obj.parents('.page').attr('id');
-	
-	if(i==0){ //Si fue el boton iniciar
+
+	if(i==0)//Si fue Iniciar
 		iniciar(p);
-	}else if(i==1){ //Si fue el boton detener
+	else if(i==1)//Si fue Detener
 		detener(p);
-	} 
-//	alert(i+'\n'+p); //Imprimimos lo pulsado
 }
 var watchID = null;
 function iniciar(p){
-	if (watchID==null){
-	if(p=='acelerometro'){
-	function onSuccess(acceleration) {
-		$('#'+p+' h2').html('X: '+acceleration.x+' <br>'+
-							'Y: '+acceleration.y+' <br>'+
-							'Z: '+acceleration.z);
-		};
-		
-		function onError() {
-			alert('onError!');
-		};
-		
-			var options = { frequency: 500 };  // Update every 3 seconds
-		
-			watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
-	}else if(p=='brujula'){
-		function onSuccess(heading) {
-			$('#'+p+' h2').html('Posición Magnetica: '+heading.magneticHeading+' <br>'+
-								'Posición Real: '+heading.trueHeading+' <br>'+
-								'Precisión: '+heading.headingAccuracy);
-		};
-		
-		function onError(compassError) {
-			alert('Compass error: ' + compassError.code);
-		};
-		
-		var options = {
-			frequency: 500
-		}; // Update every 3 seconds
-		
-		watchID = navigator.compass.watchHeading(onSuccess, onError, options);
-		}		
+	if(wathID==null){
+		if(p=='acelerometro'){
+			watchID = navigator.accelerometer.watchAcceleration(function(acceleration){
+				$('#'+p+' h2').html('X: '+acceleration.x+'<br>'+
+									'Y: '+acceleration.y+'<br>'+
+									'Z: '+acceleration.z);
+			},function(){
+				alert('onError!');
+			},{ frequency: 500 });
+		}else if(p=='brujula'){
+			watchID = navigator.compass.watchHeading(function(heading){
+				$('#'+p+' h2').html('Magnética: '+heading.magneticHeading+'<br>'+
+									'Real: '+heading.trueHeading+'<br>'+
+									'Precisión: '+heading.headingAccuracy);
+			},function onError(compassError) {
+				alert('Compass error: ' + compassError.code);
+			},{ frequency: 500 });
+		}
 	}
 }
 
 function detener(p){
 	if(watchID){
-		if(p=='acelerometro'){
-		navigator.accelerometer.clearWatch(watchID);
-		}else if (p=='brujula'){
-		navigator.compass.clearWatch(watchID);
-		}
-		watchID=null;
+		if(p=='aceletometro')
+			navigator.accelerometer.clearWatch(watchID);
+		else if(p=='brujula')
+			navigator.compass.clearWatch(watchID);
+		watchID = null;
 		$('#'+p+' h2').html('Detenido');
 	}
 }
