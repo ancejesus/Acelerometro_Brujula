@@ -38,21 +38,12 @@ function iniciar(p){
 		
 			watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
 	}else if(p=='brujula'){
-		function onSuccess(heading) {
+		function onBrujula(heading) {
 			$('#'+p+' h2').html('Posición Magnetica: '+heading.magneticHeading+' <br>'+
 								'Posición Real: '+heading.trueHeading+' <br>'+
 								'Precisión: '+heading.headingAccuracy);
 		};
-		
-		function onError(compassError) {
-			alert('Compass error: ' + compassError.code);
-		};
-		
-		var options = {
-			frequency: 500
-		}; // Update every 3 seconds
-		
-		watchID = navigator.compass.watchHeading(onSuccess, onError, options);
+		watchID = navigator.compass.watchHeading(onBrujula, onError, options);
 		}		
 }
 
