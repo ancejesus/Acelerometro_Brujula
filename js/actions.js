@@ -21,7 +21,7 @@ function accion(obj){
 	} 
 //	alert(i+'\n'+p); //Imprimimos lo pulsado
 }
-var watchID = null;
+
 function iniciar(p){
 	if(p=='acelerometro'){
 	function onSuccess(acceleration) {
